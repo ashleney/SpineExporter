@@ -1,0 +1,4 @@
+[submodule "SpineViewer"]
+	path = SpineViewer
+	url = https://github.com/ww-rm/SpineViewer.git
+	branch = dev/wpf

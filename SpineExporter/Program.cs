@@ -125,3 +125,6 @@ if (!quiet)
 
 using var cts = new CancellationTokenSource();
 exporter.Export(output, cts.Token, sp);
+
+if (!quiet)
+    Console.WriteLine();

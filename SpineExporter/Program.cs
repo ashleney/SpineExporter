@@ -6,15 +6,16 @@ string? skelPath = null;
 string? atlasPath = null;
 string? output = null;
 string? animation = null;
+bool pma = false;
 uint fps = 24;
 bool loop = false;
-int quality = 75;
 int crf = 23;
 uint? width = null;
 uint? height = null;
 int? centerx = null;
 int? centery = null;
 float zoom = 1;
+bool quiet = false;
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -32,14 +33,14 @@ for (int i = 0; i < args.Length; i++)
         case "--animation":
             animation = args[++i];
             break;
+        case "--pma":
+            pma = true;
+            break;
         case "--fps":
             uint.TryParse(args[++i], out fps);
             break;
         case "--loop":
             loop = true;
-            break;
-        case "--quality":
-            int.TryParse(args[++i], out quality);
             break;
         case "--crf":
             int.TryParse(args[++i], out crf);
@@ -58,6 +59,9 @@ for (int i = 0; i < args.Length; i++)
             break;
         case "--zoom":
             float.TryParse(args[++i], out zoom);
+            break;
+        case "--quiet":
+            quiet = true;
             break;
     }
 }
@@ -80,6 +84,7 @@ if (!Enum.TryParse<FFmpegVideoExporter.VideoFormat>(Path.GetExtension(output).Tr
 }
 
 var sp = new SpineObject(skelPath, atlasPath);
+sp.UsePma = pma;
 
 if (string.IsNullOrEmpty(animation))
 {
@@ -114,9 +119,9 @@ exporter.Duration = trackEntry.Animation.Duration;
 exporter.Fps = fps;
 exporter.Format = videoFormat;
 exporter.Loop = loop;
-exporter.Quality = quality;
 exporter.Crf = crf;
-
+if (!quiet)
+    exporter.ProgressReporter = (total, done, text) => Console.Write($"\r{text}");
 
 using var cts = new CancellationTokenSource();
 exporter.Export(output, cts.Token, sp);

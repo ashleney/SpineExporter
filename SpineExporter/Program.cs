@@ -15,6 +15,7 @@ uint? height = null;
 int? centerx = null;
 int? centery = null;
 float zoom = 1;
+float speed = 1;
 bool quiet = false;
 
 for (int i = 0; i < args.Length; i++)
@@ -60,8 +61,15 @@ for (int i = 0; i < args.Length; i++)
         case "--zoom":
             float.TryParse(args[++i], out zoom);
             break;
+        case "--speed":
+            float.TryParse(args[++i], out speed);
+            break;
         case "--quiet":
             quiet = true;
+            break;
+        default:
+            Console.Error.WriteLine($"Unknown argument: {args[i]}");
+            Environment.Exit(2);
             break;
     }
 }
@@ -120,6 +128,8 @@ exporter.Fps = fps;
 exporter.Format = videoFormat;
 exporter.Loop = loop;
 exporter.Crf = crf;
+exporter.Speed = speed;
+
 if (!quiet)
     exporter.ProgressReporter = (total, done, text) => Console.Write($"\r{text}");
 

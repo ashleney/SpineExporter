@@ -10,7 +10,7 @@ SpineViewer.exe --skel "character.skel" --animation "Idle" --output "preview.web
 ```
 
 ```
-usage: SpineExporter.exe [--skel PATH] [--atlas PATH] [--output PATH] [--animation STR] [--pma] [--fps INT] [--loop] [--crf INT] [--width INT] [--height INT] [--centerx INT] [--centery INT] [--zoom FLOAT] [--speed FLOAT] [--quiet]
+usage: SpineExporter.exe [--skel PATH] [--atlas PATH] [--output PATH] [--animation STR] [--pma] [--fps INT] [--loop] [--crf INT] [--width INT] [--height INT] [--centerx INT] [--centery INT] [--zoom FLOAT] [--speed FLOAT] [--color HEX] [--quiet]
 
 options:
   --skel PATH           Path to the .skel file
@@ -27,5 +27,6 @@ options:
   --centery INT         Center Y offset, default automatically finds bounds
   --zoom FLOAT          Zoom level, default 1.0
   --speed FLOAT         Speed of animation, default 1.0
+  --color HEX           Background color as a hex RGBA color, default 000000ff (opaque black)
   --quiet               Removes console progress log, default false
 ```

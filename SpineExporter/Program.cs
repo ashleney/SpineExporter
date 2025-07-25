@@ -1,3 +1,5 @@
+using System.Globalization;
+using SFML.Graphics;
 using Spine;
 using Spine.Exporters;
 using SpineViewer.Extensions;
@@ -16,6 +18,7 @@ int? centerx = null;
 int? centery = null;
 float zoom = 1;
 float speed = 1;
+Color backgroundColor = Color.Black;
 bool quiet = false;
 
 for (int i = 0; i < args.Length; i++)
@@ -38,31 +41,34 @@ for (int i = 0; i < args.Length; i++)
             pma = true;
             break;
         case "--fps":
-            uint.TryParse(args[++i], out fps);
+            fps = uint.Parse(args[++i]);
             break;
         case "--loop":
             loop = true;
             break;
         case "--crf":
-            int.TryParse(args[++i], out crf);
+            crf = int.Parse(args[++i]);
             break;
         case "--width":
-            if (uint.TryParse(args[++i], out var wval)) width = wval;
+            width = uint.Parse(args[++i]);
             break;
         case "--height":
-            if (uint.TryParse(args[++i], out var hval)) height = hval;
+            height = uint.Parse(args[++i]);
             break;
         case "--centerx":
-            if (int.TryParse(args[++i], out var cxval)) centerx = cxval;
+            centerx = int.Parse(args[++i]);
             break;
         case "--centery":
-            if (int.TryParse(args[++i], out var cyval)) centery = cyval;
+            centery = int.Parse(args[++i]);
             break;
         case "--zoom":
-            float.TryParse(args[++i], out zoom);
+            zoom = float.Parse(args[++i]);
             break;
         case "--speed":
-            float.TryParse(args[++i], out speed);
+            speed = float.Parse(args[++i]);
+            break;
+        case "--color":
+            backgroundColor = new Color(uint.Parse(args[++i], NumberStyles.HexNumber));
             break;
         case "--quiet":
             quiet = true;
@@ -129,6 +135,7 @@ exporter.Format = videoFormat;
 exporter.Loop = loop;
 exporter.Crf = crf;
 exporter.Speed = speed;
+exporter.BackgroundColor = backgroundColor;
 
 if (!quiet)
     exporter.ProgressReporter = (total, done, text) => Console.Write($"\r{text}");
